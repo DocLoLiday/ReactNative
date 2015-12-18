@@ -15,23 +15,18 @@ var {
   View,
 } = React;
 
-var MOCKED_MOVIES_DATA = [
-  {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},
-];
-/**
- * For quota reasons we replaced the Rotten Tomatoes' API with a sample data of
- * their very own API that lives in React Native's Github repo.
- */
-var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
-var myHeaders = new Headers();
-myHeaders.append("Authorization", "r5gh4VYQEBGCVUPhxVlPBioHDuhEIeU5CpaIUVhARo_7bPfjW2LmgiLwiNDvifADdz4NUZ36kYWQSjmAXD-o-bSC9bDM9lviDeBqcf0E9uozprwyV8VehgGcRCUEQ1r6Ph1mS8008zs5avn-htz0r9tIpJ-b6fYVzDdacU_42PbaUnn34c7p5uqziqVz7Jhov-_lTuf0yw_-Up7M8Cf8j9ihtur-ZrYcuW2wzgSCae8sO74iibsz1QOKrBkuL_fw38xjw_KgAdjnjrVe7O5i2yNBLmlfjnjDjR5Fi_SiyETbycUWqZnBKm1OKsnjB8Kbl5-5aGYYUX6WXTsFcS_RsN9CEHjbjdMsxbZuwCPras5dW4GC-ZxzRHNcjmrAkX8V7rCuz9hkE5-1DJ9CHoReniJvfOUhlKisboEt5qTUuat21Br26L4Rn20d3W6Ya2-CtGRbpGcZrq1z1cyg1WBZSLJHqIVBsT5Gw4oRN-THTpIroKqN");
-myHeaders.append("default_tenant_identifier","7c24ea8f-3ace-49cd-88ed-16d312cf80eb");
+
+var REQUEST_URL = 'https://test.ledgex.com/api/CustomEntity/Get?id=5';
+var myHeaders = new Headers({"Authorization": "r5gh4VYQEBGCVUPhxVlPBioHDuhEIeU5CpaIUVhARo_7bPfjW2LmgiLwiNDvifADdz4NUZ36kYWQSjmAXD-o-bSC9bDM9lviDeBqcf0E9uozprwyV8VehgGcRCUEQ1r6Ph1mS8008zs5avn-htz0r9tIpJ-b6fYVzDdacU_42PbaUnn34c7p5uqziqVz7Jhov-_lTuf0yw_-Up7M8Cf8j9ihtur-ZrYcuW2wzgSCae8sO74iibsz1QOKrBkuL_fw38xjw_KgAdjnjrVe7O5i2yNBLmlfjnjDjR5Fi_SiyETbycUWqZnBKm1OKsnjB8Kbl5-5aGYYUX6WXTsFcS_RsN9CEHjbjdMsxbZuwCPras5dW4GC-ZxzRHNcjmrAkX8V7rCuz9hkE5-1DJ9CHoReniJvfOUhlKisboEt5qTUuat21Br26L4Rn20d3W6Ya2-CtGRbpGcZrq1z1cyg1WBZSLJHqIVBsT5Gw4oRN-THTpIroKqN",
+  "default_tenant_identifier":"7c24ea8f-3ace-49cd-88ed-16d312cf80eb"});
 
 var myInit = {
   method: 'GET',
-  headers: myHeaders,
-  mode 'cors'
-}
+  headers: myHeaders
+};
+
+var myRequest = new Request(REQUEST_URL,myInit);
+
 var AwesomeProject = React.createClass({
   getInitialState: function() {
     return {
@@ -45,11 +40,11 @@ var AwesomeProject = React.createClass({
     this.fetchData();
   },
   fetchData: function() {
-    fetch(REQUEST_URL)
+    fetch(myRequest)
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
+          dataSource: this.state.dataSource.cloneWithRows(responseData),
           loaded: true,
         });
       })
@@ -63,7 +58,7 @@ var AwesomeProject = React.createClass({
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={this.renderMovie}
+        renderRow={this.renderContact}
         style={styles.listView} />
     );
   },
@@ -72,21 +67,18 @@ var AwesomeProject = React.createClass({
     return (
       <View style={styles.container}>
         <Text>
-          Loading movies...
+          Loading contacts...
         </Text>
       </View>
     );
   },
 
-  renderMovie: function(movie) {
+  renderContact: function(contact) {
     return (
       <View style={styles.container}>
-        <Image
-          source={{uri: movie.posters.thumbnail}}
-          style={styles.thumbnail} />
         <View style={styles.rightContainer}>
-          <Text style={styles.title}>{movie.title}</Text>
-          <Text style={styles.year}>{movie.year}</Text>
+          <Text style={styles.title}>Name: {contact.name}</Text>
+          <Text style={styles.year}> Email: {contact.email}</Text>
         </View>
       </View>
     );
@@ -124,4 +116,4 @@ var styles = StyleSheet.create({
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
 
-curl -d "grant_type=password&username=paronofsky@ledgex.com&password=M3gamanx!" https://test.ledgex.com/token
+
