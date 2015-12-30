@@ -16,7 +16,7 @@ var {
   View,
 } = React;
 
-var ToastModule = require('./NativeModules');
+ var ToastModule = require('./NativeModules');
 
 
 var REQUEST_URL = 'https://test.ledgex.com/api/list/GetList/';
@@ -100,8 +100,18 @@ var AwesomeProject = React.createClass({
   },
 
   renderContact: function(contact) {
+    var phone = '';
+    if(contact.BusinessPhone != null){
+      phone = contact.BusinessPhone;
+    }
+    else if(contact.PhoneNumber != null){
+      phone = contact.PhoneNumber;
+    }
+    else if(contact.MobileNumber != null){
+      phone = contact.MobileNumber;
+    }
     return (
-      <TouchableHighlight onPress={() => ToastModule.show('Phone: ' + contact.BusinessPhone, ToastModule.SHORT)}>
+      <TouchableHighlight onPress={() => ToastModule.show('Phone: ' + phone, ToastModule.SHORT)}>
       <View style={styles.container}>
         <View style={styles.rightContainer}>
           <Text style={styles.title}>{contact.FirstName} {contact.LastName}</Text>

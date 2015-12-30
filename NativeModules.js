@@ -8,4 +8,4 @@
  *    ToastAndroid.LONG
  */
 var { NativeModules } = require('react-native');
-module.exports = NativeModules.ToastAndroid;
+module.exports = NativeModules.ToastModule;
